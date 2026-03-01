@@ -1,0 +1,22 @@
+path: ../data
+train: augmented/images/train
+val:   augmented/images/val
+test:  augmented/images/test
+
+nc: 15
+names:
+  0:  rice_blast
+  1:  brown_spot
+  2:  leaf_blight
+  3:  sheath_rot
+  4:  neck_rot
+  5:  false_smut
+  6:  cassava_mosaic
+  7:  cassava_bacterial_blight
+  8:  late_blight_tomato
+  9:  early_blight_tomato
+  10: powdery_mildew_cucumber
+  11: anthracnose_chili
+  12: downy_mildew
+  13: leaf_curl_virus
+  14: healthy

@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+*.egg
+
+# AI Models (quá lớn cho git — dùng DVC hoặc lưu riêng)
+ai/vision/models/*.pt
+ai/vision/models/*.engine
+ai/vision/models/*.onnx
+ai/vision/data/raw/
+ai/vision/data/augmented/
+ai/vision/data/annotated/
+runs/
+
+# Environment
+.env
+*.env.local
+
+# Database
+*.sqlite
+*.db
+
+# Node / React Native / Next.js
+node_modules/
+.next/
+mobile/android/app/build/
+mobile/ios/build/
+mobile/.expo/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+hardware/tests/field-logs/
+ai/treatment/mapping/geojson/
+
+# Docker
+.docker/

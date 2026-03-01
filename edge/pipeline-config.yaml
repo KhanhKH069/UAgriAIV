@@ -1,0 +1,26 @@
+drone:
+  id: "UAV-001"
+
+camera:
+  index: 0          # /dev/video0
+  width: 1280
+  height: 720
+  fps: 30
+
+model:
+  engine_path: "ai/vision/models/best.engine"
+  conf_threshold: 0.50
+  iou_threshold: 0.45
+
+mqtt:
+  broker: "localhost"     # hoặc IP backend server
+  port: 1883
+  keepalive: 60
+
+spray:
+  default_duration_sec: 3.0
+  gpio_pin: 18
+
+gps:
+  serial_port: "/dev/ttyUSB0"
+  baud_rate: 9600
