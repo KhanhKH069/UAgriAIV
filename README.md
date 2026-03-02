@@ -11,7 +11,7 @@
 | TV1 | Hardware | `/hardware/` |
 | TV2 | AI #1 — Vision | `/ai/vision/` |
 | TV3 | AI #2 — Treatment | `/ai/treatment/` |
-| TV4 | Software Lead | `/backend/` · `/mobile/` · `/dashboard/` |
+| TV4 | Software | `/backend/` · `/mobile/` · `/dashboard/` |
 
 ---
 
