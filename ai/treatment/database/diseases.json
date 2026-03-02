@@ -1,0 +1,114 @@
+{
+  "rice_blast": {
+    "id": "rice_blast",
+    "name_vi": "Bệnh Đạo ôn lúa",
+    "name_en": "Rice Blast",
+    "crop": "Lúa",
+    "symptoms": "Vết bệnh hình thoi, viền nâu, giữa xám trắng trên lá",
+    "severity_thresholds": { "low": 0.5, "medium": 0.7, "high": 0.85 },
+    "treatment": {
+      "medicine": "Tricyclazole 75WP",
+      "dose_per_ha": "0.4 kg",
+      "water_per_ha": "400 L",
+      "timing": "Sáng sớm (5h-8h) hoặc chiều mát (17h-19h)",
+      "interval_days": 7,
+      "max_applications": 2
+    },
+    "prevention": "Không bón thừa đạm, thoát nước tốt, dùng giống kháng"
+  },
+  "brown_spot": {
+    "id": "brown_spot",
+    "name_vi": "Bệnh Đốm nâu",
+    "name_en": "Brown Spot",
+    "crop": "Lúa",
+    "symptoms": "Đốm hình tròn/oval màu nâu, viền vàng",
+    "severity_thresholds": { "low": 0.5, "medium": 0.7, "high": 0.85 },
+    "treatment": {
+      "medicine": "Mancozeb 80WP",
+      "dose_per_ha": "2.0 kg",
+      "water_per_ha": "400 L",
+      "timing": "Chiều mát (17h-19h)",
+      "interval_days": 10,
+      "max_applications": 3
+    },
+    "prevention": "Bón phân cân đối, tránh để lúa thiếu kali"
+  },
+  "leaf_blight": {
+    "id": "leaf_blight",
+    "name_vi": "Bệnh Cháy lá vi khuẩn",
+    "name_en": "Bacterial Leaf Blight",
+    "crop": "Lúa",
+    "symptoms": "Mép lá vàng rồi cháy từ đầu lá xuống dạng sóng nước",
+    "severity_thresholds": { "low": 0.5, "medium": 0.72, "high": 0.88 },
+    "treatment": {
+      "medicine": "Validamycin 3SL",
+      "dose_per_ha": "1.5 L",
+      "water_per_ha": "400 L",
+      "timing": "Sáng sớm (5h-8h)",
+      "interval_days": 7,
+      "max_applications": 2
+    },
+    "prevention": "Tránh bón đạm cao, dùng giống kháng bạc lá"
+  },
+  "cassava_mosaic": {
+    "id": "cassava_mosaic",
+    "name_vi": "Bệnh Khảm lá sắn",
+    "name_en": "Cassava Mosaic Disease",
+    "crop": "Sắn",
+    "symptoms": "Lá vàng loang lổ, xoăn, biến dạng, cây còi cọc",
+    "severity_thresholds": { "low": 0.55, "medium": 0.72, "high": 0.88 },
+    "treatment": {
+      "medicine": "Imidacloprid 70WG (diệt bọ phấn môi giới)",
+      "dose_per_ha": "0.3 kg",
+      "water_per_ha": "400 L",
+      "timing": "Sáng sớm",
+      "interval_days": 14,
+      "max_applications": 2,
+      "note": "Nhổ và tiêu hủy cây bệnh nặng. Không dùng hom giống từ cây bệnh."
+    },
+    "prevention": "Dùng hom giống sạch bệnh, kiểm soát bọ phấn trắng"
+  },
+  "late_blight_tomato": {
+    "id": "late_blight_tomato",
+    "name_vi": "Bệnh Mốc sương cà chua",
+    "name_en": "Late Blight",
+    "crop": "Cà chua",
+    "symptoms": "Vết bệnh xanh xám ướt, viền trắng mốc dưới lá",
+    "severity_thresholds": { "low": 0.5, "medium": 0.7, "high": 0.85 },
+    "treatment": {
+      "medicine": "Metalaxyl 8WP + Mancozeb",
+      "dose_per_ha": "2.0 kg",
+      "water_per_ha": "600 L",
+      "timing": "Chiều mát, tránh phun khi mưa",
+      "interval_days": 7,
+      "max_applications": 3
+    },
+    "prevention": "Thoát nước tốt, không tưới phun trực tiếp lên lá"
+  },
+  "powdery_mildew_cucumber": {
+    "id": "powdery_mildew_cucumber",
+    "name_vi": "Bệnh Phấn trắng dưa leo",
+    "name_en": "Powdery Mildew",
+    "crop": "Dưa leo",
+    "symptoms": "Lớp bột trắng như phấn phủ mặt lá, lá vàng rụng",
+    "severity_thresholds": { "low": 0.5, "medium": 0.7, "high": 0.85 },
+    "treatment": {
+      "medicine": "Hexaconazole 5SC",
+      "dose_per_ha": "1.0 L",
+      "water_per_ha": "400 L",
+      "timing": "Sáng sớm",
+      "interval_days": 10,
+      "max_applications": 2
+    },
+    "prevention": "Thông gió tốt, tránh ẩm độ quá cao"
+  },
+  "healthy": {
+    "id": "healthy",
+    "name_vi": "Cây khỏe mạnh",
+    "name_en": "Healthy",
+    "crop": "Tất cả",
+    "symptoms": "Không có triệu chứng bệnh",
+    "treatment": null,
+    "prevention": "Tiếp tục theo dõi định kỳ"
+  }
+}

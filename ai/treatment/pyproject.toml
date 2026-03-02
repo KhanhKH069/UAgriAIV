@@ -1,0 +1,15 @@
+[project]
+name = "uagriaiv-treatment"
+version = "1.0.0"
+description = "UAgriAIV Treatment Engine — Rule-based + GPS Heatmap"
+requires-python = ">=3.10"
+dependencies = [
+    "paho-mqtt==1.6.1",
+    "pyyaml==6.0.1",
+    "numpy>=1.26.0",
+    "shapely>=2.0.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

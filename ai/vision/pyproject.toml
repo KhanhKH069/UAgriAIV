@@ -1,0 +1,20 @@
+[project]
+name = "uagriaiv-vision"
+version = "1.0.0"
+description = "UAgriAIV Vision Model — YOLOv8 training & export"
+requires-python = ">=3.10"
+dependencies = [
+    "ultralytics==8.1.47",
+    "torch>=2.2.0",
+    "torchvision>=0.17.0",
+    "opencv-python==4.9.0.80",
+    "albumentations==1.4.0",
+    "numpy>=1.26.0",
+    "matplotlib>=3.8.3",
+    "seaborn>=0.13.2",
+    "tensorboard>=2.16.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

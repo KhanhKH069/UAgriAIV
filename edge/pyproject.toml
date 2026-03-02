@@ -1,0 +1,20 @@
+[project]
+name = "uagriaiv-edge"
+version = "1.0.0"
+description = "UAgriAIV Edge Pipeline — chạy trên Jetson Orin NX"
+requires-python = ">=3.10"
+dependencies = [
+    "ultralytics==8.1.47",
+    "opencv-python-headless==4.9.0.80",
+    "paho-mqtt==1.6.1",
+    "pyyaml==6.0.1",
+    "numpy>=1.26.0",
+]
+
+# Jetson-specific (cài thủ công trên board):
+# - tensorrt (từ Jetson SDK)
+# - Jetson.GPIO (từ apt: python3-jetson-gpio)
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

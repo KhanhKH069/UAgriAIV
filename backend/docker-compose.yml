@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: uagriaiv_postgres
+    environment:
+      POSTGRES_DB:       uagriaiv_db
+      POSTGRES_USER:     uav_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: uagriaiv_mqtt
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    restart: unless-stopped
+
+  backend:
+    build: .
+    container_name: uagriaiv_backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://uav_user:${POSTGRES_PASSWORD:-changeme}@postgres/uagriaiv_db
+      MQTT_BROKER:  mosquitto
+      MQTT_PORT:    "1883"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - mosquitto
+    restart: unless-stopped
+    command: uv run uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+volumes:
+  pgdata:
