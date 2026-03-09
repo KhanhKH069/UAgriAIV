@@ -122,7 +122,7 @@ export default function WeatherPage() {
                         </div>
                         <div className="space-y-2">
                             <div className="text-xs" style={{ color: '#7aad8e' }}>{t('weather.favorable_conditions')}</div>
-                            {['Nhiệt độ 25–32°C', 'Độ ẩm > 75%', 'Mưa xen kẽ nắng', 'Gió nhẹ < 15km/h'].map(c => (
+                            {[t('weather.cond_temp'), t('weather.cond_hum'), t('weather.cond_rain'), t('weather.cond_wind')].map(c => (
                                 <div key={c} className="flex items-center gap-2 text-xs" style={{ color: '#e8f5ee' }}>
                                     <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#ef4444' }} />{c}
                                 </div>
@@ -187,8 +187,8 @@ export default function WeatherPage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {[
-                            { label: t('weather.soil_moisture'), value: currentWeather.soil_moisture || 68, unit: '%', icon: '💧', color: '#38bdf8', warn: (currentWeather.soil_moisture || 68) > 80 ? 'Quá ẩm – nguy cơ bệnh nấm' : null, max: 100 },
-                            { label: t('weather.soil_ph'), value: currentWeather.soil_ph || 6.2, unit: '', icon: '🌱', color: '#00d66a', warn: (currentWeather.soil_ph || 6.2) < 5.5 ? 'Đất quá chua' : null, max: 14 },
+                            { label: t('weather.soil_moisture'), value: currentWeather.soil_moisture || 68, unit: '%', icon: '💧', color: '#38bdf8', warn: (currentWeather.soil_moisture || 68) > 80 ? t('weather.warn_moisture') : null, max: 100 },
+                            { label: t('weather.soil_ph'), value: currentWeather.soil_ph || 6.2, unit: '', icon: '🌱', color: '#00d66a', warn: (currentWeather.soil_ph || 6.2) < 5.5 ? t('weather.warn_acidic') : null, max: 14 },
                             { label: t('weather.soil_temp'), value: currentWeather.soil_temp || 26.3, unit: '°C', icon: '🌡️', color: '#f97316', warn: null, max: 50 },
                         ].map(s => (
                             <div key={s.label} className="p-4 rounded-xl" style={{ background: '#1a2e22', border: '1px solid #1e3528' }}>
@@ -211,8 +211,7 @@ export default function WeatherPage() {
                     <div className="mt-4 p-3 rounded-xl" style={{ background: 'rgba(167,139,250,0.06)', border: '1px solid rgba(167,139,250,0.15)' }}>
                         <div className="text-xs font-semibold mb-1" style={{ color: '#a78bfa' }}>{t('weather.ai_analysis')}</div>
                         <p className="text-xs leading-relaxed" style={{ color: '#e8f5ee' }}>
-                            Độ ẩm đất hiện tại ({currentWeather.soil_moisture || 68}%) kết hợp với nhiệt độ đất {currentWeather.soil_temp || 26.3}°C và pH {currentWeather.soil_ph || 6.2}
-                            tạo điều kiện hiện tại cho cây trồng.
+                            {t('weather.ai_analysis_text', { moisture: currentWeather.soil_moisture || 68, temp: currentWeather.soil_temp || 26.3, ph: currentWeather.soil_ph || 6.2 })}
                         </p>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import type { Alert } from '../../lib/api'
+import { useTranslation } from 'react-i18next'
 
 interface HeaderProps {
     title: string
@@ -9,6 +10,7 @@ interface HeaderProps {
 }
 
 export default function Header({ title, subtitle, alerts = [], onRefresh }: HeaderProps) {
+    const { t } = useTranslation()
     const [showAlerts, setShowAlerts] = useState(false)
     const unresolved = alerts.filter(a => !a.resolved)
 
@@ -19,9 +21,9 @@ export default function Header({ title, subtitle, alerts = [], onRefresh }: Head
         return '#34d399'
     }
 
-    const typeLabel = (t: string) => {
-        const m: Record<string, string> = { pest: 'Sâu bệnh', weather: 'Thời tiết', disease: 'Bệnh cây', irrigation: 'Tưới tiêu' }
-        return m[t] ?? t
+    const typeLabel = (type: string) => {
+        const m: Record<string, string> = { pest: t('common.type_pest'), weather: t('common.type_weather'), disease: t('common.type_disease'), irrigation: t('common.type_irrigation') }
+        return m[type] ?? type
     }
 
     return (
@@ -40,8 +42,8 @@ export default function Header({ title, subtitle, alerts = [], onRefresh }: Head
                 <div className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl text-sm"
                     style={{ background: 'rgba(15,31,23,0.8)', border: '1px solid rgba(30,53,40,0.8)', color: '#4d7360' }}
                 >
-                    <span>[Tìm]</span>
-                    <input type="text" placeholder="Tìm kiếm..." className="bg-transparent outline-none w-36 text-sm" style={{ color: '#e8f5ee' }} />
+                    <span>{t('common.find')}</span>
+                    <input type="text" placeholder={t('common.search_ph')} className="bg-transparent outline-none w-36 text-sm" style={{ color: '#e8f5ee' }} />
                 </div>
 
                 {/* Refresh */}
@@ -50,7 +52,7 @@ export default function Header({ title, subtitle, alerts = [], onRefresh }: Head
                         className="px-3 py-1.5 rounded-xl transition-all hover:bg-white/5 text-sm"
                         style={{ color: '#7aad8e', border: '1px solid rgba(30,53,40,0.8)' }}
                     >
-                        Tải lại
+                        {t('common.refresh')}
                     </button>
                 )}
 
@@ -61,7 +63,7 @@ export default function Header({ title, subtitle, alerts = [], onRefresh }: Head
                         className="relative px-3 py-1.5 rounded-xl transition-all hover:bg-white/5 text-sm"
                         style={{ color: '#7aad8e', border: '1px solid rgba(30,53,40,0.8)' }}
                     >
-                        Thông báo
+                        {t('common.notifications')}
                         {unresolved.length > 0 && (
                             <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full text-xs font-bold flex items-center justify-center text-white"
                                 style={{ background: '#ef4444' }}
@@ -77,15 +79,15 @@ export default function Header({ title, subtitle, alerts = [], onRefresh }: Head
                             style={{ background: '#0f1f17', border: '1px solid #1e3528' }}
                         >
                             <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: '1px solid #1e3528' }}>
-                                <span className="font-semibold text-white text-sm">Cảnh báo</span>
+                                <span className="font-semibold text-white text-sm">{t('common.alerts')}</span>
                                 <button onClick={() => setShowAlerts(false)} style={{ color: '#4d7360', fontSize: '12px' }}>
-                                    Đóng
+                                    {t('common.close')}
                                 </button>
                             </div>
                             <div className="max-h-64 overflow-y-auto">
                                 {unresolved.length === 0 ? (
                                     <div className="px-4 py-6 text-center text-sm" style={{ color: '#4d7360' }}>
-                                        Không có cảnh báo nào
+                                        {t('common.no_alerts')}
                                     </div>
                                 ) : unresolved.map(alert => (
                                     <div key={alert.id} className="px-4 py-3 border-b hover:bg-white/3 transition-colors"

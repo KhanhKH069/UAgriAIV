@@ -116,8 +116,8 @@ export default function Sidebar() {
                     {!collapsed && <span className="text-sm font-bold uppercase">{i18n.language}</span>}
                 </button>
                 {[
-                    { short: 'CĐ', label: 'Cài đặt' },
-                    { short: 'ĐX', label: 'Đăng xuất' },
+                    { short: 'CĐ', label: t('common.settings') },
+                    { short: 'ĐX', label: t('common.logout') },
                 ].map(({ short, label }) => (
                     <button
                         key={label}

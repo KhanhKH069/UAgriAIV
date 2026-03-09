@@ -10,15 +10,15 @@ import Badge from '../components/UI/Badge'
 import { mockDetections, mockWeather, mockUAVs, mockAlerts } from '../lib/mockData'
 import { useTranslation } from 'react-i18next'
 
-const weeklyPestData = [
-    { day: 'T2', count: 120 }, { day: 'T3', count: 180 }, { day: 'T4', count: 145 },
-    { day: 'T5', count: 210 }, { day: 'T6', count: 190 }, { day: 'T7', count: 234 }, { day: 'CN', count: 200 },
+const weeklyPestData = (t: any) => [
+    { day: t('common.mon'), count: 120 }, { day: t('common.tue'), count: 180 }, { day: t('common.wed'), count: 145 },
+    { day: t('common.thu'), count: 210 }, { day: t('common.fri'), count: 190 }, { day: t('common.sat'), count: 234 }, { day: t('common.sun'), count: 200 },
 ]
-const pestTypeData = [
-    { name: 'Đạo ôn', value: 45, color: '#ef4444' },
-    { name: 'Sâu đục thân', value: 25, color: '#f97316' },
-    { name: 'Sương mai', value: 18, color: '#fbbf24' },
-    { name: 'Khảm lá', value: 12, color: '#34d399' },
+const pestTypeData = (t: any) => [
+    { name: t('common.disease_blast'), value: 45, color: '#ef4444' },
+    { name: t('common.disease_stem_borer'), value: 25, color: '#f97316' },
+    { name: t('common.disease_downy_mildew'), value: 18, color: '#fbbf24' },
+    { name: t('common.disease_mosaic'), value: 12, color: '#34d399' },
 ]
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -89,10 +89,10 @@ export default function DashboardPage() {
 
                 {/* ── Quick Stats ── */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <StatCard title={t('dashboard.total_affected_trees')} value={totalDetections} unit={t('dashboard.unit_tree')} change={12.5} changeLabel="vs tuần trước" glowClass="glow-red" />
+                    <StatCard title={t('dashboard.total_affected_trees')} value={totalDetections} unit={t('dashboard.unit_tree')} change={12.5} changeLabel={t('common.vs_last_week')} glowClass="glow-red" />
                     <StatCard title={t('dashboard.pest_risk')} value={weather.pest_risk_level === 'high' ? t('weather.risk_high') : weather.pest_risk_level === 'medium' ? t('weather.risk_medium') : t('weather.risk_low')} glowClass={weather.pest_risk_level === 'high' ? 'glow-red' : weather.pest_risk_level === 'medium' ? 'glow-amber' : ''} />
                     <StatCard title={t('dashboard.active_uavs')} value={activeUAVs} unit={`/${mockUAVs.length}`} />
-                    <StatCard title={t('dashboard.scanned_area')} value={mockUAVs.reduce((a, u) => a + u.total_area_scanned, 0).toLocaleString()} unit={t('dashboard.unit_ha')} change={8.3} changeLabel="tuần này" />
+                    <StatCard title={t('dashboard.scanned_area')} value={mockUAVs.reduce((a, u) => a + u.total_area_scanned, 0).toLocaleString()} unit={t('dashboard.unit_ha')} change={8.3} changeLabel={t('common.this_week')} />
                 </div>
 
                 {/* ── Action Buttons ── */}
@@ -107,7 +107,7 @@ export default function DashboardPage() {
                             <div>
                                 <div className="font-semibold text-white text-sm">{t('common.action_irrigate')}</div>
                                 <div className="text-xs" style={{ color: '#7aad8e' }}>
-                                    {irrigated ? 'Đã kích hoạt' : irrigating ? 'Đang xử lý...' : 'Kích hoạt toàn bộ khu'}
+                                    {irrigated ? t('dashboard.irrigate_active') : irrigating ? t('dashboard.irrigate_processing') : t('dashboard.irrigate_trigger')}
                                 </div>
                             </div>
                         </div>
@@ -126,7 +126,7 @@ export default function DashboardPage() {
                         <div className="flex items-center gap-3 mb-3">
                             <div>
                                 <div className="font-semibold text-white text-sm">{t('common.action_treatment')}</div>
-                                <div className="text-xs" style={{ color: '#7aad8e' }}>Tạo kế hoạch xử lý</div>
+                                <div className="text-xs" style={{ color: '#7aad8e' }}>{t('common.treatment_sub')}</div>
                             </div>
                         </div>
                         <div className="text-xs leading-relaxed" style={{ color: '#4d7360' }}>
@@ -162,7 +162,7 @@ export default function DashboardPage() {
                             </div>
                         </div>
                         <ResponsiveContainer width="100%" height={180}>
-                            <AreaChart data={weeklyPestData}>
+                            <AreaChart data={weeklyPestData(t)}>
                                 <defs>
                                     <linearGradient id="pg1" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3} />
@@ -183,14 +183,14 @@ export default function DashboardPage() {
                         <p className="text-xs mb-4" style={{ color: '#4d7360' }}>{t('dashboard.pest_type_sub')}</p>
                         <ResponsiveContainer width="100%" height={140}>
                             <PieChart>
-                                <Pie data={pestTypeData} cx="50%" cy="50%" innerRadius={40} outerRadius={65} paddingAngle={3} dataKey="value">
-                                    {pestTypeData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                                <Pie data={pestTypeData(t)} cx="50%" cy="50%" innerRadius={40} outerRadius={65} paddingAngle={3} dataKey="value">
+                                    {pestTypeData(t).map((entry: any, i: number) => <Cell key={i} fill={entry.color} />)}
                                 </Pie>
                                 <Tooltip content={<CustomTooltip />} />
                             </PieChart>
                         </ResponsiveContainer>
                         <div className="space-y-1.5 mt-2">
-                            {pestTypeData.map(d => (
+                            {pestTypeData(t).map((d: any) => (
                                 <div key={d.name} className="flex items-center justify-between text-xs">
                                     <div className="flex items-center gap-2">
                                         <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: d.color }} />
@@ -251,11 +251,11 @@ export default function DashboardPage() {
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="text-sm font-medium text-white">{uav.name}</div>
-                                            <div className="text-xs" style={{ color: '#4d7360' }}>{statusLabel} • Pin: {uav.battery}%</div>
+                                            <div className="text-xs" style={{ color: '#4d7360' }}>{statusLabel} • {t('common.battery')}: {uav.battery}%</div>
                                         </div>
                                         <div className="text-right">
                                             <div className="text-sm font-semibold text-white">{uav.total_area_scanned.toLocaleString()}</div>
-                                            <div className="text-xs" style={{ color: '#4d7360' }}>ha</div>
+                                            <div className="text-xs" style={{ color: '#4d7360' }}>{t('common.ha')}</div>
                                         </div>
                                     </div>
                                 )
@@ -271,8 +271,8 @@ export default function DashboardPage() {
                         onClick={() => setShowTreatment(false)}
                     >
                         <div className="glass-card p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
-                            <h2 className="text-lg font-bold text-white mb-1">Phác đồ điều trị</h2>
-                            <p className="text-xs mb-4" style={{ color: '#4d7360' }}>Dựa trên phân tích AI • Đạo ôn – Nghiêm trọng</p>
+                            <h2 className="text-lg font-bold text-white mb-1">{t('common.treatment_plan')}</h2>
+                            <p className="text-xs mb-4" style={{ color: '#4d7360' }}>{t('common.treatment_ai_analysis')}</p>
                             <div className="space-y-3">
                                 {[
                                     { name: 'Tricyclazole 75%WP', dosage: '1g/L nước', freq: '2 lần/tuần', cost: 400000 },
@@ -282,23 +282,23 @@ export default function DashboardPage() {
                                         <div className="flex items-start justify-between gap-2">
                                             <div>
                                                 <div className="text-sm font-semibold text-white">{m.name}</div>
-                                                <div className="text-xs mt-1" style={{ color: '#7aad8e' }}>Liều: {m.dosage} · {m.freq}</div>
+                                                <div className="text-xs mt-1" style={{ color: '#7aad8e' }}>{t('common.treatment_dosage', { dosage: m.dosage, freq: m.freq })}</div>
                                             </div>
                                             <div className="text-xs font-medium text-right" style={{ color: '#fbbf24' }}>
-                                                {m.cost.toLocaleString('vi-VN')}đ/ha
+                                                {m.cost.toLocaleString('vi-VN')} {t('dashboard.cost_unit')}
                                             </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                             <div className="mt-4 p-3 rounded-xl" style={{ background: 'rgba(0,214,106,0.06)', border: '1px solid rgba(0,214,106,0.15)' }}>
-                                <div className="text-xs font-medium" style={{ color: '#34d399' }}>Phương pháp phun: UAV Spraying</div>
-                                <div className="text-xs mt-1" style={{ color: '#4d7360' }}>Khu vực: Khu A, Khu B · Hiệu quả ước tính: 92%</div>
+                                <div className="text-xs font-medium" style={{ color: '#34d399' }}>{t('common.treatment_method')} UAV Spraying</div>
+                                <div className="text-xs mt-1" style={{ color: '#4d7360' }}>{t('common.treatment_zone', { zone: 'Khu A, Khu B', eff: 92 })}</div>
                             </div>
                             <button onClick={() => setShowTreatment(false)}
                                 className="mt-4 w-full py-2.5 rounded-xl text-sm font-semibold text-black transition-all hover:opacity-90"
                                 style={{ background: 'linear-gradient(135deg, #00d66a, #00884a)' }}>
-                                Áp dụng phác đồ
+                                {t('common.treatment_apply')}
                             </button>
                         </div>
                     </div>

@@ -7,13 +7,14 @@ import {
 import Layout from '../components/Layout/Layout'
 import Badge from '../components/UI/Badge'
 import { mockDetections, mockAlerts } from '../lib/mockData'
+import { useTranslation } from 'react-i18next'
 
-const severityFilter = ['Tất cả', 'critical', 'high', 'medium', 'low']
-const pestZoneData = [
-    { zone: 'Khu A', 'Đạo ôn': 234, 'Sâu đục thân': 45, 'Sương mai': 12 },
-    { zone: 'Khu B', 'Đạo ôn': 89, 'Sâu đục thân': 30, 'Sương mai': 8 },
-    { zone: 'Khu C', 'Đạo ôn': 45, 'Sâu đục thân': 18, 'Sương mai': 25 },
-    { zone: 'Khu D', 'Đạo ôn': 12, 'Sâu đục thân': 5, 'Sương mai': 3 },
+const severityFilter = (t: any) => [t('common.all'), 'critical', 'high', 'medium', 'low']
+const pestZoneData = (t: any) => [
+    { zone: `${t('common.zone')} A`, [t('common.disease_blast')]: 234, [t('common.disease_stem_borer')]: 45, [t('common.disease_downy_mildew')]: 12 },
+    { zone: `${t('common.zone')} B`, [t('common.disease_blast')]: 89, [t('common.disease_stem_borer')]: 30, [t('common.disease_downy_mildew')]: 8 },
+    { zone: `${t('common.zone')} C`, [t('common.disease_blast')]: 45, [t('common.disease_stem_borer')]: 18, [t('common.disease_downy_mildew')]: 25 },
+    { zone: `${t('common.zone')} D`, [t('common.disease_blast')]: 12, [t('common.disease_stem_borer')]: 5, [t('common.disease_downy_mildew')]: 3 },
 ]
 const radarData = [
     { subject: 'Mật độ', A: 85 },
@@ -43,25 +44,26 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 }
 
 export default function CropHealthPage() {
-    const [filter, setFilter] = useState('Tất cả')
+    const { t } = useTranslation()
+    const [filter, setFilter] = useState(t('common.all'))
     const [selectedPest, setSelectedPest] = useState(null)
     const [showMedicine, setShowMedicine] = useState(false)
     const [showPlan, setShowPlan] = useState(false)
 
-    const filtered = filter === 'Tất cả' ? mockDetections : mockDetections.filter(d => d.severity === filter)
+    const filtered = filter === t('common.all') ? mockDetections : mockDetections.filter(d => d.severity === filter)
 
     return (
         <>
-            <Head><title>UAgriAIV – Tình trạng cây trồng</title></Head>
-            <Layout title="Tình trạng cây trồng" subtitle="Crop Health Status" alerts={mockAlerts} onRefresh={() => { }}>
+            <Head><title>UAgriAIV – {t('common.crop_health')}</title></Head>
+            <Layout title={t('common.crop_health')} subtitle="Crop Health Status" alerts={mockAlerts} onRefresh={() => { }}>
 
                 {/* ── Summary stats ── */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
                     {[
-                        { label: 'Tổng cây nhiễm', value: mockDetections.reduce((a, d) => a + d.affected_count, 0), color: '#ef4444' },
-                        { label: 'Nghiêm trọng', value: mockDetections.filter(d => d.severity === 'critical').length, color: '#f97316' },
-                        { label: 'Loại sâu hại', value: [...new Set(mockDetections.map(d => d.pest_type))].length, color: '#fbbf24' },
-                        { label: 'Khu vực bị ảnh hưởng', value: [...new Set(mockDetections.map(d => d.field_zone))].length, color: '#a78bfa' },
+                        { label: t('crop_health.total_infected'), value: mockDetections.reduce((a, d) => a + d.affected_count, 0), color: '#ef4444' },
+                        { label: t('crop_health.critical'), value: mockDetections.filter(d => d.severity === 'critical').length, color: '#f97316' },
+                        { label: t('crop_health.pest_types'), value: [...new Set(mockDetections.map(d => d.pest_type))].length, color: '#fbbf24' },
+                        { label: t('crop_health.affected_zones'), value: [...new Set(mockDetections.map(d => d.field_zone))].length, color: '#a78bfa' },
                     ].map(s => (
                         <div key={s.label} className="glass-card p-4">
                             <div className="text-xs mb-2" style={{ color: '#7aad8e' }}>{s.label}</div>
@@ -73,23 +75,23 @@ export default function CropHealthPage() {
                 {/* ── Action row ── */}
                 <div className="flex flex-wrap gap-3 mb-6">
                     <button onClick={() => setShowPlan(true)} className="action-btn px-4 py-2.5 flex items-center gap-2 text-sm font-medium text-white">
-                        <span style={{ fontSize: '15px' }}>📝</span> Lên phác đồ điều trị
+                        <span style={{ fontSize: '15px' }}>📝</span> {t('common.action_treatment')}
                     </button>
                     <button onClick={() => setShowMedicine(true)} className="action-btn px-4 py-2.5 flex items-center gap-2 text-sm font-medium text-white">
-                        <span style={{ fontSize: '15px' }}>🧪</span> Gợi ý thuốc BVTV
+                        <span style={{ fontSize: '15px' }}>🧪</span> {t('common.action_medicine')}
                     </button>
                     <button className="action-btn px-4 py-2.5 flex items-center gap-2 text-sm font-medium text-white">
-                        <span style={{ fontSize: '15px' }}>📊</span> Xuất báo cáo
+                        <span style={{ fontSize: '15px' }}>📊</span> {t('crop_health.export_report')}
                     </button>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
                     {/* Bar chart by zone */}
                     <div className="lg:col-span-2 glass-card p-5">
-                        <h3 className="font-semibold text-white text-sm mb-1">Phân bố sâu bệnh theo khu vực</h3>
-                        <p className="text-xs mb-4" style={{ color: '#4d7360' }}>Số cây bị nhiễm theo loại sâu mỗi khu</p>
+                        <h3 className="font-semibold text-white text-sm mb-1">{t('crop_health.distribution')}</h3>
+                        <p className="text-xs mb-4" style={{ color: '#4d7360' }}>{t('crop_health.distribution_sub')}</p>
                         <ResponsiveContainer width="100%" height={200}>
-                            <BarChart data={pestZoneData} barCategoryGap="20%">
+                            <BarChart data={pestZoneData(t)} barCategoryGap="20%">
                                 <XAxis dataKey="zone" tick={{ fill: '#4d7360', fontSize: 11 }} axisLine={false} tickLine={false} />
                                 <YAxis tick={{ fill: '#4d7360', fontSize: 11 }} axisLine={false} tickLine={false} />
                                 <Tooltip content={<CustomTooltip />} />
@@ -109,8 +111,8 @@ export default function CropHealthPage() {
 
                     {/* Radar chart – Rầy nâu danger profile */}
                     <div className="glass-card p-5">
-                        <h3 className="font-semibold text-white text-sm mb-1">Hồ sơ nguy hiểm</h3>
-                        <p className="text-xs mb-2" style={{ color: '#4d7360' }}>Đạo ôn – Khu A (Lúa)</p>
+                        <h3 className="font-semibold text-white text-sm mb-1">{t('crop_health.danger_profile')}</h3>
+                        <p className="text-xs mb-2" style={{ color: '#4d7360' }}>{t('crop_health.danger_profile_sub')}</p>
                         <ResponsiveContainer width="100%" height={200}>
                             <RadarChart data={radarData}>
                                 <PolarGrid stroke="#1e3528" />
@@ -124,11 +126,11 @@ export default function CropHealthPage() {
                 {/* ── Detection list ── */}
                 <div className="glass-card p-5">
                     <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                        <h3 className="font-semibold text-white text-sm">Danh sách phát hiện</h3>
+                        <h3 className="font-semibold text-white text-sm">{t('crop_health.detection_list')}</h3>
                         <div className="flex items-center gap-2 flex-wrap">
                             {/* Filter */}
                             <div className="flex gap-1">
-                                {severityFilter.map(f => (
+                                {severityFilter(t).map(f => (
                                     <button key={f} onClick={() => setFilter(f)}
                                         className="text-xs px-2.5 py-1 rounded-lg transition-all font-medium"
                                         style={{
@@ -136,7 +138,7 @@ export default function CropHealthPage() {
                                             color: filter === f ? '#00d66a' : '#7aad8e',
                                             border: `1px solid ${filter === f ? 'rgba(0,214,106,0.3)' : 'transparent'}`,
                                         }}>
-                                        {f === 'critical' ? 'Nghiêm trọng' : f === 'high' ? 'Cao' : f === 'medium' ? 'TB' : f === 'low' ? 'Thấp' : f}
+                                        {f === 'critical' ? t('common.severity_critical') : f === 'high' ? t('common.severity_high') : f === 'medium' ? t('common.severity_medium') : f === 'low' ? t('common.severity_low') : f}
                                     </button>
                                 ))}
                             </div>
@@ -146,7 +148,7 @@ export default function CropHealthPage() {
                         <table className="w-full text-sm">
                             <thead>
                                 <tr style={{ borderBottom: '1px solid #1e3528' }}>
-                                    {['Thời gian', 'Loại sâu', 'Khu vực', 'Số cây', 'Mức độ', 'Độ tin cậy'].map(h => (
+                                    {[t('common.time'), t('common.pest_type'), t('common.area'), t('common.tree_count'), t('common.severity'), t('common.confidence')].map(h => (
                                         <th key={h} className="text-left pb-3 pr-4 text-xs font-semibold" style={{ color: '#4d7360' }}>{h}</th>
                                     ))}
                                 </tr>
@@ -193,8 +195,8 @@ export default function CropHealthPage() {
                         style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
                         onClick={() => setShowMedicine(false)}>
                         <div className="glass-card p-6 w-full max-w-lg max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-                            <h2 className="text-lg font-bold text-white mb-1">Gợi ý thuốc BVTV</h2>
-                            <p className="text-xs mb-4" style={{ color: '#4d7360' }}>Danh sách thuốc phù hợp được AI đề xuất</p>
+                            <h2 className="text-lg font-bold text-white mb-1">{t('crop_health.medicine_modal_title')}</h2>
+                            <p className="text-xs mb-4" style={{ color: '#4d7360' }}>{t('crop_health.medicine_modal_sub')}</p>
                             <div className="space-y-3">
                                 {medicines.map(m => (
                                     <div key={m.name} className="p-4 rounded-xl transition-all hover:bg-white/5"
@@ -202,10 +204,10 @@ export default function CropHealthPage() {
                                         <div className="flex items-start justify-between gap-2 mb-2">
                                             <div>
                                                 <div className="text-sm font-semibold text-white">{m.name}</div>
-                                                <div className="text-xs mt-0.5" style={{ color: '#7aad8e' }}>Mục tiêu: {m.target} · Liều: {m.dosage}</div>
+                                                <div className="text-xs mt-0.5" style={{ color: '#7aad8e' }}>{t('crop_health.medicine_target')}: {m.target} · {t('crop_health.medicine_dosage')}: {m.dosage}</div>
                                             </div>
                                             <div className="text-xs font-bold text-right" style={{ color: '#fbbf24' }}>
-                                                {m.cost.toLocaleString('vi-VN')}đ
+                                                {m.cost.toLocaleString('vi-VN')} đ
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-2">
@@ -220,7 +222,7 @@ export default function CropHealthPage() {
                             <button onClick={() => setShowMedicine(false)}
                                 className="mt-4 w-full py-2.5 rounded-xl text-sm font-semibold text-black"
                                 style={{ background: 'linear-gradient(135deg, #00d66a, #00884a)' }}>
-                                Đóng
+                                {t('common.close')}
                             </button>
                         </div>
                     </div>
@@ -232,8 +234,8 @@ export default function CropHealthPage() {
                         style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}
                         onClick={() => setShowPlan(false)}>
                         <div className="glass-card p-6 w-full max-w-md" onClick={e => e.stopPropagation()}>
-                            <h2 className="text-lg font-bold text-white mb-1">Phác đồ điều trị tổng hợp</h2>
-                            <p className="text-xs mb-4" style={{ color: '#4d7360' }}>AI phân tích toàn bộ khu vực bị nhiễm</p>
+                            <h2 className="text-lg font-bold text-white mb-1">{t('crop_health.plan_modal_title')}</h2>
+                            <p className="text-xs mb-4" style={{ color: '#4d7360' }}>{t('crop_health.plan_modal_sub')}</p>
                             {mockDetections.map(d => (
                                 <div key={d.id} className="mb-3 p-3 rounded-xl" style={{ background: '#1a2e22', border: '1px solid #1e3528' }}>
                                     <div className="flex items-center gap-2 mb-1">
@@ -243,14 +245,14 @@ export default function CropHealthPage() {
                                         <span className="text-xs ml-auto" style={{ color: '#4d7360' }}>{d.field_zone}</span>
                                     </div>
                                     <div className="text-xs" style={{ color: '#7aad8e' }}>
-                                        Khuyến nghị: Phun thuốc ngay trong vòng {d.severity === 'critical' ? '12h' : d.severity === 'high' ? '24h' : '48h'} tới
+                                        {t('crop_health.plan_recommendation', { time: d.severity === 'critical' ? '12h' : d.severity === 'high' ? '24h' : '48h' })}
                                     </div>
                                 </div>
                             ))}
                             <button onClick={() => setShowPlan(false)}
                                 className="mt-2 w-full py-2.5 rounded-xl text-sm font-semibold text-black"
                                 style={{ background: 'linear-gradient(135deg, #00d66a, #00884a)' }}>
-                                Xác nhận & điều phối UAV
+                                {t('crop_health.plan_confirm')}
                             </button>
                         </div>
                     </div>
